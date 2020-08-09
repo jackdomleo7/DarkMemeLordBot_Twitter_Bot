@@ -4,7 +4,7 @@ const Twitter = new Twit(require('./config'));
 
 const darkmemelordSearch: Twit.Params = {
   q: '#darkmemelord',
-  count: 20,
+  count: 20, // Temporary value for now
   result_type: 'recent',
 };
 
@@ -16,6 +16,14 @@ const engageLatest = (): void => {
         Twitter.post(`statuses/retweet/${tweetId}`, {}, (error: Error, response: Response) => { // Retweet
           if (response) {
             console.log(`Success! Retweeted: ${tweetId}`);
+          }
+          if (error) {
+            console.error('There was an error with Twitter:', error);
+          }
+        });
+        Twitter.post('favorites/create', { id: tweetId }, (error: Error, response: Response) => {
+          if (response) {
+            console.log(`Success! Liked: ${tweetId}`);
           }
           if (error) {
             console.error('There was an error with Twitter:', error);
