@@ -1,39 +1,42 @@
-import Twit, { Response } from 'twit';
+import TwitterClient, { Search, SearchParams } from 'twitter-api-client';
+import * as dotenv from 'dotenv';
 
-const Twitter = new Twit(require('./config'));
+dotenv.config({ path: './.env' });
 
-const darkmemelordSearch: Twit.Params = {
+const Twitter = new TwitterClient({
+  apiKey: process.env.CONSUMER_KEY!,
+  apiSecret: process.env.CONSUMER_SECRET!,
+  accessToken: process.env.ACCESS_TOKEN!,
+  accessTokenSecret: process.env.ACCESS_TOKEN_SECRET!,
+});
+
+const darkmemelordSearch: SearchParams = {
   q: '#darkmemelord',
-  count: 20, // Temporary value for now
+  count: 10,
   result_type: 'recent',
 };
 
-const engageLatest = (): void => {
-  Twitter.get('search/tweets', darkmemelordSearch, (error: Error, data: any) => {
-    if (!error) {
-      for (let i: number = 0; i <= data.statuses.length - 1; i++) {
-        const tweetId: string = data.statuses[i].id_str;
-        Twitter.post(`statuses/retweet/${tweetId}`, {}, (error: Error, response: Response) => { // Retweet
-          if (response) {
-            console.log(`Success! Retweeted: ${tweetId}`);
-          }
-          if (error) {
-            console.error('There was an error with Twitter:', error);
-          }
-        });
-        Twitter.post('favorites/create', { id: tweetId }, (error: Error, response: Response) => {
-          if (response) {
-            console.log(`Success! Liked: ${tweetId}`);
-          }
-          if (error) {
-            console.error('There was an error with Twitter:', error);
-          }
-        });
+const engageLatest = async (): Promise<void> => {
+  try {
+    const data: Search = await Twitter.tweets.search(darkmemelordSearch);
+    data.statuses.forEach(async tweet => {
+      try {
+        await Twitter.tweets.favoritesCreate({ id: tweet.id_str });
       }
-    } else {
-      console.error('There was an error with your hashtag search:', error);
-    }
-  });
+      catch (error) {
+        console.error(`There was an error favoriting tweet ${tweet.id_str}`, error);
+      }
+      try {
+        await Twitter.tweets.statusesRetweetById({ id: tweet.id_str });
+      }
+      catch (error) {
+        console.error(`There was an error retweeting tweet ${tweet.id_str}`, error);
+      }
+    });
+  }
+  catch (error) {
+    console.error('There was an error retrieving tweets', error);
+  }
 };
 
 engageLatest();
