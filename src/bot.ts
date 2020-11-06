@@ -9,6 +9,7 @@ const Twitter = new TwitterClient({
   accessToken: process.env.ACCESS_TOKEN!,
   accessTokenSecret: process.env.ACCESS_TOKEN_SECRET!,
 });
+regeneratorRuntime
 
 const darkmemelordSearch: SearchParams = {
   q: '#darkmemelord',
