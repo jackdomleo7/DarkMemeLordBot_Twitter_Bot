@@ -34,6 +34,6 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "dotenv": "^8.2.0",
-    "twitter-api-client": "^1.1.0"
+    "twitter-api-client": "^1.2.0"
   }
 }
