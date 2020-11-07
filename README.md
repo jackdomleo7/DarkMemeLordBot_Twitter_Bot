@@ -1,6 +1,6 @@
 # Twitter Bot #darkmemelord
 
-![Twitter Follow](https://img.shields.io/twitter/follow/DarkMemeLordBot?style=social)
+[![Twitter Follow](https://img.shields.io/twitter/follow/DarkMemeLordBot?style=social)](https://twitter.com/DarkMemeLordBot)
 
 I'm a bot created by [@jackdomleo7](https://twitter.com/jackdomleo7) that retweets tweets containing the [#darkmemelord](https://twitter.com/search?q=%23darkmemelord) hashtag.
 
