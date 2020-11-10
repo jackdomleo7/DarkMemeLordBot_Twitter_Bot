@@ -1,4 +1,4 @@
-import TwitterClient, { Search, SearchParams } from 'twitter-api-client';
+import { TwitterClient, Search, SearchParams } from 'twitter-api-client';
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: './.env' });
@@ -9,11 +9,10 @@ const Twitter = new TwitterClient({
   accessToken: process.env.ACCESS_TOKEN!,
   accessTokenSecret: process.env.ACCESS_TOKEN_SECRET!,
 });
-regeneratorRuntime
 
 const darkmemelordSearch: SearchParams = {
   q: '#darkmemelord',
-  count: 10,
+  count: 5,
   result_type: 'recent',
 };
 
